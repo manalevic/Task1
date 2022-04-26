@@ -1,0 +1,28 @@
+
+.main {
+    display: flex;
+    flex-direction: column;
+}
+
+.main__iframe iframe {
+    border: none;
+    height: 70vh;
+    width: 100%;
+    min-width: 100%;
+    position: relative;
+}
+
+.header__button {
+    border: 1px gray solid;
+    border-radius: 30px;
+    font-size: 20px;
+    padding: 20px;
+    background-color: #0090FF;
+    color: white;
+    cursor: pointer;
+    margin-top: 10px;
+    align-self: center;
+}
+.header__button:hover, .header__button:focus {
+    background-color: #047edb;
+}
