@@ -8,8 +8,6 @@
 </head>
 
 <body>
-
-
     <main class="main">
         <div class="main__section main__section-iframe">
             <div class="main__iframe">
@@ -20,35 +18,26 @@
             Save Result
         </button>
     </main>
-    
-
-    <script type="text/javascript" id="CcIframeApiScript" src="https://cc-farm-dev.eastus.cloudapp.azure.com/10048/design-editor/6.20.1/Resources/Generated/IframeApi.js"></script>
-    
+    <script type="text/javascript" id="CcIframeApiScript"
+        src="https://cc-farm-dev.eastus.cloudapp.azure.com/10048/design-editor/6.20.1/Resources/Generated/IframeApi.js"></script>
     <script>
-    document.addEventListener('DOMContentLoaded', async () => {
-        const product = "626691a36c74336f5b0e6086"; // Design ID - see further 
-        const config = {
-            userId: "10048"
-        };
+        document.addEventListener('DOMContentLoaded', async () => {
+            const product = '626691a36c74336f5b0e6086'; // Design ID - see further 
+            const config = {
+                userId: '10048'
+            };
+            var editor = await CustomersCanvas.IframeApi.loadEditor(
+                document.getElementById('editorFrame'), product, config);
 
-        var editor = await CustomersCanvas.IframeApi.loadEditor(
-            document.getElementById("editorFrame"), product, config);
-
-        document.getElementById("finish").removeAttribute("disabled");
-        document.getElementById('finish').addEventListener('click', async () => {
-            let result = await editor.finishProductDesign();
-            console.log("Pass to reopen the design (private design id and user id accordingly): ", result.stateId, result.userId);
-            console.log("Links to print-ready files: ", result.hiResUrls);
-            console.log("Links to proof images: ", result.proofImageUrls);
-    });
-    });
-    
+            document.getElementById('finish').removeAttribute('disabled');
+            document.getElementById('finish').addEventListener('click', async () => {
+                let result = await editor.finishProductDesign();
+                console.log('Pass to reopen the design (private design id and user id accordingly): ', result.stateId, result.userId);
+                console.log('Links to print-ready files: ', result.hiResUrls);
+                console.log('Links to proof images: ', result.proofImageUrls);
+            });
+        });
     </script>
-
-
-    
-    <!-- <script type="module" src="/editor.js"></script> -->
-    <!-- <script type="module" src="https://staticjs-aurigma.azureedge.net/ui-framework/latest/moduleLoader.js"></script> -->
 </body>
 
 </html>
