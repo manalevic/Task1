@@ -1,7 +1,4 @@
-.main__section {
-    height: 100%;
-}
-.main__editor{
+.editor-container{
     width: 100%;  
     height: 80vh;
 }

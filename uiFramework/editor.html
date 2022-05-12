@@ -1,35 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Java Script</title>
     <link rel="stylesheet" href="./editor.css">
 </head>
+
 <body>
     <main class="main">
-        <div class="main__section main__section-editor">
-            <div id="editor-container" class="main__editor"></div>
-        </div>
+        <div id="editor-container" class="editor-container"></div>
     </main>
 
     <script type="module">
-        const uiFrameworkUrl = "https://staticjs-aurigma.azureedge.net/ui-framework/4.40.3"
-        const designEditorUrl = "https://cc-farm-dev.eastus.cloudapp.azure.com/10048/design-editor/6.20.1"
-        
-        import moduleLoader from "https://staticjs-aurigma.azureedge.net/ui-framework/4.40.3/moduleLoader.js";
-        const driverModule = await moduleLoader.dynamicImport("ecommerceDriver", `${uiFrameworkUrl}/drivers/default-driver.js`);
-        const editorModule = await moduleLoader.dynamicImportDefault("editor", `${uiFrameworkUrl}/editor.js`);
-    
+        const uiFrameworkUrl = 'https://staticjs-aurigma.azureedge.net/ui-framework/4.40.3';
+        const designEditorUrl = 'https://cc-farm-dev.eastus.cloudapp.azure.com/10048/design-editor/6.20.1';
+
+        import moduleLoader from 'https://staticjs-aurigma.azureedge.net/ui-framework/4.40.3/moduleLoader.js';
+        const driverModule = await moduleLoader.dynamicImport('ecommerceDriver', `${uiFrameworkUrl}/drivers/default-driver.js`);
+        const editorModule = await moduleLoader.dynamicImportDefault('editor', `${uiFrameworkUrl}/editor.js`);
+
         const driver = driverModule.ecommerceDriver;
         const editor = editorModule.editor?.editor ?? editorModule.editor;
-        const quantity = 1;
-        const productModel = {
+        const product = {
+            id: 0,
+            sku: 'PRODUCT-001',
+            name: 'My Product',
+            description: 'This is a test product.',
             options: [],
+            price: 1,
             attributes: []
         };
-        const userModel = { id: "10048" };
         const config = {
-            "showSteps": false,
             "widgets": [
                 {
                     "name": "editor",
@@ -38,55 +40,29 @@
                         "initial": {
                             "productDefinition": "626691a36c74336f5b0e6086",
                             "editorConfig": {
-                                "fontList": [
-                                    "Roboto-BlackItalic",
-                                    "Roboto-Light",
-                                    "OpenSans-Light"
-                                ]
+                                "initialMode": "Advanced"
                             }
                         }
                     }
                 },
-                {
-                    "name": "order",
-                    "type": "order",
-                    "params": {
-                        "data": {},
-                        "props": {
-                            "stateId": ["{{ $['editor'].stateId }}"],
-                            "userId": "{{ $['editor'].userId }}",
-                            "printFiles": "{{ $['editor'].hiResUrls }}",
-                            "images": "{{ $['editor'].proofImageUrls.map(u=>u[0]) }}"
-                        }
-                    }
-                },
-                {
-                    "name": "finish-button",
-                    "type": "finish-button",
-                    "params": {
-                        "onClick": [
-                            "{{#function main.showPreloader(true, 'Creating print files...')}}",
-                            "{{#function $['editor'].getHiResImages(800,800)}}",
-                            "{{#function $['order'].widgetUpdated}}",
-                            "{{#function main.showPreloader(false)}}"
-                        ]
-                    }
-                }
             ],
             "steps": [
                 {
-                    "name": "1. Editor",
+                    "name": "Editor",
                     "mainPanel": {
                         "name": "editor"
                     }
                 }
             ]
-        }
+        };
         const settings = {
             customersCanvasBaseUrl: `${designEditorUrl}`
         };
+        const quantity = 1;
+        const userModel = { id: 'test-user' };
+
         const ecommerce = await driver.init(
-            productModel,
+            product,
             editor,
             config,
             settings,
@@ -94,30 +70,9 @@
             quantity,
             userModel
         );
-
-        // ecommerce.cart.onSubmitted.subscribe((data) => {
-        //     console.log("submitted");
-        //     data.lineItems.forEach((order, index) => {
-        //         console.log(`Line item ${index + 1}: Private Design ID = ${order.props.stateId.join(", ")} for the user ${order.props.userId}`);
-        //         console.log("Links to print-ready files: ", order.downloadUrls);
-        //         console.log("Links to proof images: ", order.images);
-        //     });
-            
-        // });
-        ecommerce.cart.onSubmitted.subscribe(function (data) {
-            console.log("submitted");
-            data.lineItems.forEach(function (order) {
-                console.log(order);
-            })
-        });
-
-        ecommerce.products.current.renderEditor(document.getElementById("editor-container"));
-
-        
+        ecommerce.products.current.renderEditor(document.getElementById('editor-container'));
     </script>
-    
-    <!-- <script type="module" src="/editor.js"></script> -->
-    <!-- <script type="module" src="https://staticjs-aurigma.azureedge.net/ui-framework/latest/moduleLoader.js"></script> -->
+
 </body>
 
 </html>
